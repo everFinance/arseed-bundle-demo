@@ -1,6 +1,6 @@
 <template>
   <div>
-<!--    <h1>{{signerAddr}}</h1>-->
+    <h1>{{signerAddr}}</h1>
     <button class="btn btn-danger" @click="connectWallet" v-show="!connected">connectWallet</button>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
   methods: {
     async connectWallet() {
       const instance = await genAPI(window.ethereum)
-      // this.signerAddr = window.ethereum.selectedAddress
+      this.signerAddr = window.ethereum.selectedAddress
       this.connected = true
       pubsub.publish('connected',instance)
     },

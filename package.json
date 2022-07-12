@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "arseeding-js": "^0.0.9",
+    "arseeding-js": "^0.0.10",
     "bignumber.js": "^9.0.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.9",
