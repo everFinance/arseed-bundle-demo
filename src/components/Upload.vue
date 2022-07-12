@@ -88,7 +88,6 @@ export default {
           const ops = {
             tags: [{name: "FileName", value:file.name},{name: "Content-Type",value:file.raw.type}]
           }
-          // todo need user change tokenSymbol, not only 'usdc'
           const res = await this.instance.sendAndPay('https://arseed.web3infura.io', data, this.selectedSymbol, ops)
           console.log(res)
           this.submitResp = JSON.stringify(res)
