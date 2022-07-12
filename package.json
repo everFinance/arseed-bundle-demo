@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "arseeding-js": "^0.0.7",
+    "arseeding-js": "^0.0.9",
+    "bignumber.js": "^9.0.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.9",
+    "ethers": "^5.6.9",
+    "everpay": "^0.5.2",
     "pubsub-js": "^1.9.4",
     "vue": "^2.6.11"
   },
