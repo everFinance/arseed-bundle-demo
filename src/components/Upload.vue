@@ -16,6 +16,7 @@
         :on-change="handleChangeFileSuccess"
         :on-success="handleAvatarSuccess"
         drag
+        multiple
         action="#"
         class="avatar-uploader"
     >
@@ -75,7 +76,7 @@ export default {
       this.combineFileList(fileList);
     },
     async combineFileList(files) {
-      const file = files[0]
+      const file = files[files.length - 1]
       console.log('file.size', file.size)
 
       const fee = await getBundleFee('https://arseed.web3infura.io', file.size, this.selectedSymbol)
