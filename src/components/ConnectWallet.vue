@@ -19,6 +19,7 @@ export default {
   },
   methods: {
     async connectWallet() {
+      await window.ethereum.enable()
       const instance = await genAPI(window.ethereum)
       this.signerAddr = window.ethereum.selectedAddress
       this.connected = true

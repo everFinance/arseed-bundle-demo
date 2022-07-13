@@ -27,7 +27,7 @@
       <ul>
         <li v-for="(order, index) in orders" :key="index">
           <a style="margin-right:10px;" target="_blank" :href="`https://arseed.web3infura.io/${order.itemId}`">{{order.itemId}}</a>
-          <a target="_blank" :href="`https://arweave.net/${order.itemId}`">by arweave gateway</a>
+          <a target="_blank" :href="`https://arweave.net/${order.itemId}`">By arweave gateway(when onChainStatus pending or success)</a>
           <div>{{JSON.stringify(order, null, 2)}}</div>
         </li>
       </ul>
