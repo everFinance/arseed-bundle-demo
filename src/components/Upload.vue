@@ -4,7 +4,7 @@
       <el-option
         v-for="symbol in symbols"
         :key="symbol"
-        :label="symbol"
+        :label="`${symbol} ${balanceStack[symbol]}`"
         :value="symbol"
       />
     </el-select>
@@ -18,7 +18,6 @@
         drag
         action="#"
         class="avatar-uploader"
-        multiple
     >
       <i class="el-icon-upload"/>
       <div class="el-upload__text">Drag the file here，or<em style="color: #031425;"> Click to upload</em></div>
@@ -53,6 +52,7 @@ export default {
       everpay: {},
       balance: '',
       orders: [],
+      balanceStack: {},
     };
   },
   watch: {
@@ -101,6 +101,17 @@ export default {
       getOrders('https://arseed.web3infura.io', window.ethereum.selectedAddress).then(orders => {
         this.orders = orders
       })
+    },
+    async getBalances() {
+      this.everpay.balances({
+        account: window.ethereum.selectedAddress
+      }).then(balances => {
+        const balanceStack = {}
+        balances.forEach(balanceItem => {
+          balanceStack[balanceItem.symbol] = balanceItem.balance
+        })
+        this.balanceStack = balanceStack
+      })
     }
   },
   mounted() {
@@ -109,10 +120,12 @@ export default {
       this.symbols = info.tokenList.map(token => token.symbol)
       this.selectedSymbol = this.symbols[0]
     })
+    
     this.pubId = pubsub.subscribe('connected',async (msgName,data)=>{
       this.connected = true
       this.instance = data
       this.getOrders()
+      this.getBalances()
     })
   },
   beforeDestroy() {
