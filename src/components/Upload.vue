@@ -102,6 +102,12 @@ export default {
         this.orders = orders
       })
     },
+    intervalUpdateOrders () {
+      setTimeout(() => {
+        this.getOrders()
+        this.intervalUpdateOrders()
+      }, 10000)
+    },
     async getBalances() {
       this.everpay.balances({
         account: window.ethereum.selectedAddress
@@ -125,6 +131,7 @@ export default {
       this.connected = true
       this.instance = data
       this.getOrders()
+      this.intervalUpdateOrders()
       this.getBalances()
     })
   },
