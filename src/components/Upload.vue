@@ -26,7 +26,7 @@
     <div>
       <ul>
         <li v-for="(order, index) in orders" :key="index">
-          <a style="margin-right:10px;" target="_blank" :href="`https://arseed.web3infura.io/${order.itemId}`">{{order.itemId}}</a>
+          <a style="margin-right:10px;" target="_blank" :href="`https://arseed.web3infra.dev/${order.itemId}`">{{order.itemId}}</a>
           <a target="_blank" :href="`https://arweave.net/${order.itemId}`">By arweave gateway(when onChainStatus pending or success)</a>
           <div>{{JSON.stringify(order, null, 2)}}</div>
         </li>
@@ -79,7 +79,7 @@ export default {
       const file = files[files.length - 1]
       console.log('file.size', file.size)
 
-      const fee = await getBundleFee('https://arseed.web3infura.io', file.size, this.selectedSymbol)
+      const fee = await getBundleFee('https://arseed.web3infra.dev', file.size, this.selectedSymbol)
       const formatedFee = new Bignumber(fee.finalFee).dividedBy(new Bignumber(10).pow(fee.decimals)).toString()
       if (+this.balance >= +formatedFee) {
         const reader = new FileReader();
@@ -89,7 +89,7 @@ export default {
           const ops = {
             tags: [{name: "FileName", value:file.name},{name: "Content-Type",value:file.raw.type}]
           }
-          const res = await this.instance.sendAndPay('https://arseed.web3infura.io', data, this.selectedSymbol, ops)
+          const res = await this.instance.sendAndPay('https://arseed.web3infra.dev', data, this.selectedSymbol, ops)
           console.log(res)
           this.submitResp = JSON.stringify(res)
           this.getOrders()
@@ -99,7 +99,7 @@ export default {
       }
     },
     async getOrders() {
-      getOrders('https://arseed.web3infura.io', window.ethereum.selectedAddress).then(orders => {
+      getOrders('https://arseed.web3infra.dev', window.ethereum.selectedAddress).then(orders => {
         this.orders = orders
       })
     },
@@ -127,7 +127,7 @@ export default {
       this.symbols = info.tokenList.map(token => token.symbol)
       this.selectedSymbol = this.symbols[0]
     })
-    
+
     this.pubId = pubsub.subscribe('connected',async (msgName,data)=>{
       this.connected = true
       this.instance = data
