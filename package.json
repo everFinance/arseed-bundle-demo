@@ -26,6 +26,9 @@
     "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.6.11"
   },
+  "engines": {
+    "node": ">= 16.0.0"
+  },
   "eslintConfig": {
     "root": true,
     "env": {
