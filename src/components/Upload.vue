@@ -26,7 +26,7 @@
     <div>
       <ul>
         <li v-for="(order, index) in orders" :key="index">
-          <a style="margin-right:10px;" target="_blank" :href="`https://arseed.web3infra.dev/${order.itemId}`">{{order.itemId}}</a>
+          <a style="margin-right:10px;" target="_blank" :href="`${arseedUrl}/${order.itemId}`">{{order.itemId}}</a>
           <a target="_blank" :href="`https://arweave.net/${order.itemId}`">By arweave gateway(when onChainStatus pending or success)</a>
           <div>{{JSON.stringify(order, null, 2)}}</div>
         </li>
@@ -40,6 +40,15 @@ import pubsub from 'pubsub-js'
 import Everpay from 'everpay'
 import { getBundleFee, getOrders } from 'arseeding-js'
 import Bignumber from 'bignumber.js'
+function  getArseedUrl() {
+  let arseedUrl = "https://arseed.web3infra.dev"
+  const hostname = window.location.hostname
+  if ( hostname.split(".")[0].indexOf("dev") !== -1 || hostname === "localhost") { // test env
+    arseedUrl = "https://arseed-dev.web3infra.dev"
+  }
+  return arseedUrl
+}
+
 export default {
   name: 'Upload',
   data() {
@@ -54,6 +63,7 @@ export default {
       balance: '',
       orders: [],
       balanceStack: {},
+      arseedUrl: getArseedUrl()
     };
   },
   watch: {
@@ -79,7 +89,7 @@ export default {
       const file = files[files.length - 1]
       console.log('file.size', file.size)
 
-      const fee = await getBundleFee('https://arseed.web3infra.dev', file.size, this.selectedSymbol)
+      const fee = await getBundleFee(this.arseedUrl, file.size, this.selectedSymbol)
       const formatedFee = new Bignumber(fee.finalFee).dividedBy(new Bignumber(10).pow(fee.decimals)).toString()
       if (+this.balance >= +formatedFee) {
         const reader = new FileReader();
@@ -89,7 +99,7 @@ export default {
           const ops = {
             tags: [{name: "FileName", value:file.name},{name: "Content-Type",value:file.raw.type}]
           }
-          const res = await this.instance.sendAndPay('https://arseed.web3infra.dev', data, this.selectedSymbol, ops)
+          const res = await this.instance.sendAndPay(this.arseedUrl, data, this.selectedSymbol, ops)
           console.log(res)
           this.submitResp = JSON.stringify(res)
           this.getOrders()
@@ -99,7 +109,7 @@ export default {
       }
     },
     async getOrders() {
-      getOrders('https://arseed.web3infra.dev', window.ethereum.selectedAddress).then(orders => {
+      getOrders(this.arseedUrl, window.ethereum.selectedAddress).then(orders => {
         this.orders = orders
       })
     },
