@@ -40,6 +40,8 @@ import pubsub from 'pubsub-js'
 import Everpay from 'everpay'
 import { getBundleFee, getOrders } from 'arseeding-js'
 import Bignumber from 'bignumber.js'
+import {createAndSubmitItem} from "arseeding-js/cjs/submitOrder";
+// import {payOrder} from "arseeding-js/cjs/payOrder";
 function  getArseedUrl() {
   let arseedUrl = "https://arseed.web3infra.dev"
   const hostname = window.location.hostname
@@ -101,6 +103,25 @@ export default {
           }
           const res = await this.instance.sendAndPay(this.arseedUrl, data, this.selectedSymbol, ops)
           console.log(res)
+
+          // ----------- for test bug----------------
+          const cfg =  {
+            signer: this.instance.signer,
+            path:"",
+            arseedUrl: 'https://arseed.web3infra.dev',
+            currency: 'AR'
+          }
+          const ords = await createAndSubmitItem(data,ops,cfg)
+          console.log('oooood',ords)
+          // const pay = new Everpay({
+          //   account: this.instance.signer.address,
+          //   chainType: 'ethereum' as any,
+          //   ethConnectedSigner: this.instance.signer
+          // })
+          //
+          // const tx = await payOrder(pay,ords)
+          // console.log('tttxxx',tx)
+          // ----------------------------
           this.submitResp = JSON.stringify(res)
           this.getOrders()
         }
