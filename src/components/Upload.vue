@@ -68,10 +68,10 @@ export default {
   },
   watch: {
     selectedSymbol() {
-      if (this.everpay.balance && this.selectedSymbol && window.ethereum.selectedAddress) {
+      if (this.everpay.balance && this.selectedSymbol && this.instance.addr) {
         this.everpay.balance({
           symbol: this.selectedSymbol,
-          account: window.ethereum.selectedAddress
+          account: this.instance.addr
         }).then(result => {
           this.balance = result
         })
