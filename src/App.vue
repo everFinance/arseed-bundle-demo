@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div style="text-align:right">
+      <a href="https://github.com/everFinance/arseed-bundle-demo" target="_blank" style="margin-right:10px;">Github</a>
+      <a href="https://web3infra.dev/docs/arseeding/guide/quickStart/" target="_blank" style="margin-right:100px;">Docs</a>
+    </div>
     <ConnectWallet></ConnectWallet>
     <Upload></upload>
   </div>
