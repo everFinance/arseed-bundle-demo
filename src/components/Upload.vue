@@ -44,7 +44,7 @@ function  getArseedUrl() {
   let arseedUrl = "https://arseed.web3infra.dev"
   const hostname = window.location.hostname
   if ( hostname.split(".")[0].indexOf("dev") !== -1 || hostname === "localhost") { // test env
-    arseedUrl = "https://arseed-dev.web3infra.dev"
+    arseedUrl = "https://seed-dev.everpay.io"
   }
   return arseedUrl
 }
