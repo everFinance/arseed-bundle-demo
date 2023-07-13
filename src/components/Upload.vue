@@ -38,7 +38,7 @@
 <script>
 import pubsub from 'pubsub-js'
 import Everpay from 'everpay'
-import { getBundleFee, getOrders } from 'arseeding-js'
+import { getBundleFee, getOrders, getTokenTagByEver } from 'arseeding-js'
 import Bignumber from 'bignumber.js'
 function  getArseedUrl() {
   let arseedUrl = "https://arseed.web3infra.dev"
@@ -67,10 +67,12 @@ export default {
     };
   },
   watch: {
-    selectedSymbol() {
+    async selectedSymbol() {
       if (this.everpay.balance && this.selectedSymbol && this.instance.addr) {
+        const tokenTags = await getTokenTagByEver(this.selectedSymbol)  // everpay supported all tokens
+        const payCurrencyTag = tokenTags[0]
         this.everpay.balance({
-          symbol: this.selectedSymbol,
+          tag: payCurrencyTag,
           account: this.instance.addr
         }).then(result => {
           this.balance = result
@@ -99,7 +101,9 @@ export default {
           const ops = {
             tags: [{name: "FileName", value:file.name},{name: "Content-Type",value:file.raw.type}]
           }
-          const res = await this.instance.sendAndPay(this.arseedUrl, data, this.selectedSymbol, ops)
+          const tokenTags = await getTokenTagByEver(this.selectedSymbol)  // everpay supported all tokens
+          const payCurrencyTag = tokenTags[0]
+          const res = await this.instance.sendAndPay(this.arseedUrl, data, payCurrencyTag, ops)
           console.log(res)
           this.submitResp = JSON.stringify(res)
           this.getOrders()
