@@ -11,7 +11,7 @@
 
 <script>
 import Upload from './components/Upload.vue'
-import ConnectWallet from './components/ConnectWallet'
+import ConnectWallet from './components/ConnectWallet.vue'
 
 export default {
   name: 'App',
